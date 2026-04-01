@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: movie-platform
+    runtime: docker
+    plan: starter
+    branch: Home
+    healthCheckPath: /movies
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    previews:
+      generation: manual
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: DATA_ROOT
+        value: /app/data
+      - key: APP_UPLOAD_ROOT
+        value: /app/data/uploads
+    disk:
+      name: movie-platform-data
+      mountPath: /app/data
+      sizeGB: 1

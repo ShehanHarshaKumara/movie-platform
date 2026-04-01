@@ -103,3 +103,20 @@ docker run --rm -p 8080:8080 -e PORT=8080 movie-rental-platform
 ```
 
 To keep file-based data between restarts, mount a persistent volume or disk to `/app/data` on your host platform.
+
+### Render
+
+This repo now includes a `render.yaml` Blueprint for deploying the app on Render with Docker.
+
+Important:
+
+- The Blueprint uses the `starter` plan because this app needs a persistent disk for `data/` and uploaded files.
+- The disk is mounted at `/app/data`, which matches the app's `DATA_ROOT` and `APP_UPLOAD_ROOT` settings.
+- The health check uses `/movies` because `/` redirects there.
+
+To deploy:
+
+1. Push this repository to GitHub.
+2. In Render, create a new Blueprint from the repo.
+3. Confirm the `Home` branch and `movie-platform` service.
+4. Apply the Blueprint and wait for the first deploy to finish.
