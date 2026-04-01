@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Movie Reviews')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+<div class="container py-4">
+    <a th:href="@{/movies/{id}(id=${movie.id})}" class="btn btn-cr-outline btn-sm mb-4">
+        <i class="bi bi-arrow-left me-1"></i>Back to Movie
+    </a>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 style="font-size:1.5rem;font-weight:800;margin:0;" th:text="${movie.title + ' — Reviews'}">Movie Reviews</h1>
+            <div class="text-muted mt-1" style="font-size:.875rem;">
+                <i class="bi bi-star-fill me-1" style="color:var(--cr-gold);"></i>
+                Avg. <span th:text="${#numbers.formatDecimal(averageRating,1,1)}">0.0</span>/5
+                &nbsp;·&nbsp;
+                <span th:text="${reviews != null ? reviews.size() : 0}">0</span> reviews
+            </div>
+        </div>
+        <a class="btn btn-cr-gold btn-sm"
+           th:if="${session.loggedInUser != null and !hasReviewed}"
+           th:href="@{/reviews/add/{id}(id=${movie.id})}">
+            <i class="bi bi-pencil me-1"></i>Write Review
+        </a>
+    </div>
+
+    <div th:if="${reviews == null or reviews.isEmpty()}" class="alert cr-alert-info p-4 text-center">
+        <i class="bi bi-chat-square fs-2 d-block mb-2"></i>No reviews yet for this movie.
+    </div>
+
+    <div class="d-flex flex-column gap-3">
+        <div class="review-card" th:each="review : ${reviews}">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <div class="d-flex align-items-center gap-2">
+                    <div style="width:36px;height:36px;border-radius:50%;background:var(--cr-border);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--cr-text);"
+                         th:text="${#strings.toUpperCase(#strings.substring(review.username,0,1))}">U</div>
+                    <div>
+                        <div style="font-weight:600;font-size:.9rem;" th:text="${review.username}">User</div>
+                        <div class="text-muted" style="font-size:.75rem;" th:text="${review.reviewDate}">Date</div>
+                    </div>
+                </div>
+                <div style="background:rgba(245,197,24,.15);border:1px solid rgba(245,197,24,.3);border-radius:8px;padding:.3rem .75rem;font-weight:700;color:var(--cr-gold);font-size:.9rem;">
+                    <i class="bi bi-star-fill me-1" style="font-size:.75rem;"></i><span th:text="${review.rating}">5</span>/5
+                </div>
+            </div>
+            <p style="color:var(--cr-text);font-size:.875rem;line-height:1.6;margin:0;" th:text="${review.comment}">Comment</p>
+            <div class="d-flex gap-2 mt-2"
+                 th:if="${session.loggedInUser != null and (session.loggedInUser.id == review.userId or session.loggedInUser.role == 'ADMIN')}">
+                <a class="btn btn-cr-gold btn-sm"
+                   th:if="${session.loggedInUser.id == review.userId}"
+                   th:href="@{/reviews/edit/{id}(id=${review.id})}">Edit</a>
+                <form th:action="@{/reviews/delete/{id}(id=${review.id})}" method="post">
+                    <button class="btn btn-cr-danger btn-sm" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

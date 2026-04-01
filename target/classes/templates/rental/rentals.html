@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('My Rentals')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-start mb-4">
+        <div class="page-header mb-0"><h1>My Rentals</h1><p>Active rentals, returns, and history.</p></div>
+        <div style="background:rgba(0,200,150,.1);border:1px solid rgba(0,200,150,.3);border-radius:8px;padding:.5rem 1rem;font-size:.875rem;">
+            <span style="color:var(--cr-muted);">Total spent:</span> <strong style="color:var(--cr-success);">$<span th:text="${#numbers.formatDecimal(totalSpent,1,2)}">0.00</span></strong>
+        </div>
+    </div>
+
+    <div class="cr-card p-4 mb-4">
+        <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:1rem;"><i class="bi bi-bag me-2" style="color:var(--cr-accent);"></i>Active Rentals</h2>
+        <div th:if="${activeRentals == null or activeRentals.isEmpty()}" class="alert cr-alert-info p-3">No active rentals.</div>
+        <div class="table-responsive" th:if="${activeRentals != null and !activeRentals.isEmpty()}">
+            <table class="cr-table">
+                <thead><tr><th>Movie</th><th>Rental Date</th><th>Due Date</th><th>Fee</th><th>Download</th><th>Action</th></tr></thead>
+                <tbody>
+                <tr th:each="rental : ${activeRentals}">
+                    <td th:text="${movieLookup[rental.movieId] != null ? movieLookup[rental.movieId].title : 'Movie #' + rental.movieId}">Movie</td>
+                    <td th:text="${rental.rentalDate}">Date</td>
+                    <td th:text="${rental.dueDate}">Due</td>
+                    <td style="color:var(--cr-success);font-weight:600;">$<span th:text="${#numbers.formatDecimal(rental.rentalFee,1,2)}">0.00</span></td>
+                    <td>
+                        <a class="btn btn-cr-gold btn-sm"
+                           th:if="${downloadableRentals[rental.id] == true}"
+                           th:href="@{/rentals/download/{id}(id=${rental.movieId})}">
+                            Download
+                        </a>
+                        <span class="text-muted" th:if="${downloadableRentals[rental.id] != true}">Not available</span>
+                    </td>
+                    <td><a class="btn btn-cr-outline btn-sm" th:href="@{/rentals/return/{id}(id=${rental.id})}">Return</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="cr-card p-4">
+        <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:1rem;"><i class="bi bi-clock-history me-2" style="color:var(--cr-info);"></i>Rental History</h2>
+        <div th:if="${rentalHistory == null or rentalHistory.isEmpty()}" class="alert cr-alert-info p-3">No rental history yet.</div>
+        <div class="table-responsive" th:if="${rentalHistory != null and !rentalHistory.isEmpty()}">
+            <table class="cr-table">
+                <thead><tr><th>Movie</th><th>Returned On</th><th>Rental Fee</th><th>Late Fee</th></tr></thead>
+                <tbody>
+                <tr th:each="rental : ${rentalHistory}">
+                    <td th:text="${movieLookup[rental.movieId] != null ? movieLookup[rental.movieId].title : 'Movie #' + rental.movieId}">Movie</td>
+                    <td th:text="${rental.returnDate}">Date</td>
+                    <td>$<span th:text="${#numbers.formatDecimal(rental.rentalFee,1,2)}">0.00</span></td>
+                    <td style="color:var(--cr-accent);">$<span th:text="${#numbers.formatDecimal(rental.lateFee,1,2)}">0.00</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

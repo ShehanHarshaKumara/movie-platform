@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Add Movie')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="cr-card p-4">
+                <h1 class="mb-1" style="font-size:1.5rem;font-weight:800;"><i class="bi bi-plus-circle me-2" style="color:var(--cr-accent);"></i>Add New Movie</h1>
+                <p class="text-muted mb-4">Create a movie card with poster image, download link, and rental details.</p>
+                <form action="/movies/add" method="post" enctype="multipart/form-data" th:object="${movie}">
+                    <input type="hidden" name="returnTo" th:value="${returnTo}">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Movie Name</label>
+                            <input class="form-control" type="text" th:field="*{title}" required placeholder="e.g. Inception">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Director</label>
+                            <input class="form-control" type="text" th:field="*{director}" required placeholder="e.g. Christopher Nolan">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Genre</label>
+                            <input class="form-control" type="text" th:field="*{genre}" required placeholder="e.g. Sci-Fi">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Release Date</label>
+                            <input class="form-control" type="date" th:field="*{releaseDate}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Rental Price ($/day)</label>
+                            <input class="form-control" type="number" step="0.01" min="0.01" th:field="*{rentalPrice}" required placeholder="4.99">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Total Copies</label>
+                            <input class="form-control" type="number" min="1" th:field="*{totalCopies}" required placeholder="5">
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label">Movie Download Link</label>
+                            <input class="form-control" type="url" th:field="*{downloadLink}" placeholder="https://example.com/download/movie">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Movie Poster Image</label>
+                            <input class="form-control" type="file" name="posterImage" accept=".jpg,.jpeg,.png,.gif,.webp">
+                            <div class="text-muted mt-2" style="font-size:.8rem;">Supported formats: JPG, PNG, GIF, WEBP.</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" rows="4" th:field="*{description}" placeholder="Brief synopsis..."></textarea>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 mt-4">
+                        <button class="btn btn-cr-primary px-4" type="submit"><i class="bi bi-check-lg me-1"></i>Save Movie</button>
+                        <a class="btn btn-cr-outline" th:if="${returnTo == 'admin'}" href="/admin/movies">Cancel</a>
+                        <a class="btn btn-cr-outline" th:if="${returnTo != 'admin'}" href="/movies">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

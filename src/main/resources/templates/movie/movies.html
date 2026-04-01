@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Movies')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+
+<div class="container-fluid movie-browser-shell py-4 px-3 px-lg-4">
+    <section class="movie-browser-hero mb-4">
+        <div class="movie-browser-copy">
+            <span class="movie-browser-kicker">CineRent Movie Hub</span>
+            <h1>Find your next movie night pick.</h1>
+            <p>Browse trending posters, open full movie details, and manage your library from one screen.</p>
+            <div class="movie-browser-actions">
+                <a th:if="${session.loggedInUser != null and session.loggedInUser.role != 'ADMIN'}" class="btn btn-cr-outline" href="/users/profile">
+                    <i class="bi bi-person-circle me-1"></i>Manage Profile
+                </a>
+                <a th:if="${session.loggedInUser != null and session.loggedInUser.role == 'ADMIN'}" class="btn btn-cr-outline" href="/admin/movies">
+                    <i class="bi bi-sliders me-1"></i>Manage Movies
+                </a>
+                <a th:if="${session.loggedInUser != null and session.loggedInUser.role == 'ADMIN'}" class="btn btn-cr-primary" href="/movies/add?returnTo=admin">
+                    <i class="bi bi-plus-circle me-1"></i>Add Movie
+                </a>
+            </div>
+        </div>
+
+        <div class="movie-browser-side">
+            <form class="movie-browser-search" method="get" action="/movies/search">
+                <label class="movie-browser-search-label" for="movieKeyword">Search Library</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input id="movieKeyword" class="form-control" type="text" name="keyword" th:value="${keyword}" placeholder="Search by title, director, or genre">
+                    <button class="btn btn-cr-primary" type="submit">Search</button>
+                </div>
+            </form>
+            <div class="movie-browser-stats">
+                <div class="movie-browser-stat">
+                    <span class="movie-browser-stat-value" th:text="${#lists.size(movies)}">0</span>
+                    <span class="movie-browser-stat-label">Movies</span>
+                </div>
+                <div class="movie-browser-stat">
+                    <span class="movie-browser-stat-value" th:text="${#lists.size(trendingMovies)}">0</span>
+                    <span class="movie-browser-stat-label">Trending</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div th:if="${keyword != null and !keyword.isBlank()}" class="movie-filter-note mb-4">
+        Showing results for <strong th:text="${keyword}">keyword</strong>
+    </div>
+
+    <section th:if="${movies != null and !movies.isEmpty()}" class="movie-stream-section mb-5">
+        <div class="movie-stream-header">
+            <div>
+                <h2>Trending Now</h2>
+                <p>Top posters from your current movie collection.</p>
+            </div>
+            <div class="movie-rail-controls" th:if="${trendingMovies != null and #lists.size(trendingMovies) > 4}">
+                <button class="movie-rail-control" type="button" data-rail-target="trendingRail" data-direction="-1" aria-label="Scroll trending left">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <button class="movie-rail-control" type="button" data-rail-target="trendingRail" data-direction="1" aria-label="Scroll trending right">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="movie-rail-shell">
+            <div id="trendingRail" class="movie-rail">
+                <a th:each="movie, stat : ${trendingMovies}" class="movie-poster-card movie-poster-card-trending" th:href="@{/movies/{id}(id=${movie.id})}">
+                    <span class="movie-card-badge movie-card-badge-accent" th:text="${qualityLabels[movie.id]}">WEB-DL</span>
+                    <span class="movie-card-badge movie-card-badge-rating" th:if="${averageRatings[movie.id] != null and averageRatings[movie.id] > 0}">
+                        <i class="bi bi-star-fill"></i>
+                        <span th:text="${#numbers.formatDecimal(averageRatings[movie.id],1,1)}">8.8</span>
+                    </span>
+                    <span class="movie-card-badge movie-card-badge-rating movie-card-badge-new" th:if="${averageRatings[movie.id] == null or averageRatings[movie.id] <= 0}">
+                        NEW
+                    </span>
+                    <div class="poster-frame movie-poster-frame">
+                        <img th:if="${movie.imagePath != null and !movie.imagePath.isBlank()}" th:src="${movie.imagePath}" th:alt="${movie.title}" class="poster-image">
+                        <div th:if="${movie.imagePath == null or movie.imagePath.isBlank()}" class="poster-placeholder">
+                            <i class="bi bi-film" style="font-size:3.2rem;"></i>
+                        </div>
+                    </div>
+                    <span class="movie-rank-badge" th:text="${stat.count}">1</span>
+                    <div class="movie-card-overlay">
+                        <h3 th:text="${movie.title}">Movie Title</h3>
+                        <div class="movie-card-meta">
+                            <span th:text="${movie.releaseDate != null ? movie.releaseDate.year : 'Now'}">2026</span>
+                            <span>&bull;</span>
+                            <span th:text="${movie.genre != null and !movie.genre.isBlank() ? movie.genre : 'Featured'}">Action</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="all-movies" th:if="${movies != null and !movies.isEmpty()}" class="movie-stream-section">
+        <div class="movie-stream-header">
+            <div>
+                <h2>All Movies</h2>
+                <p>Every movie card opens the full movie details page.</p>
+            </div>
+            <a class="movie-view-all-link" href="#all-movies">View All</a>
+        </div>
+
+        <div class="movie-grid-stream">
+            <a th:each="movie : ${movies}" class="movie-poster-card movie-poster-card-grid" th:href="@{/movies/{id}(id=${movie.id})}">
+                <span class="movie-card-badge movie-card-badge-accent" th:text="${qualityLabels[movie.id]}">WEB</span>
+                <span class="movie-card-badge movie-card-badge-rating" th:if="${averageRatings[movie.id] != null and averageRatings[movie.id] > 0}">
+                    <i class="bi bi-star-fill"></i>
+                    <span th:text="${#numbers.formatDecimal(averageRatings[movie.id],1,1)}">7.4</span>
+                </span>
+                <span class="movie-card-badge movie-card-badge-rating movie-card-badge-new" th:if="${averageRatings[movie.id] == null or averageRatings[movie.id] <= 0}">
+                    NEW
+                </span>
+                <div class="poster-frame movie-poster-frame">
+                    <img th:if="${movie.imagePath != null and !movie.imagePath.isBlank()}" th:src="${movie.imagePath}" th:alt="${movie.title}" class="poster-image">
+                    <div th:if="${movie.imagePath == null or movie.imagePath.isBlank()}" class="poster-placeholder">
+                        <i class="bi bi-film" style="font-size:2.6rem;"></i>
+                    </div>
+                </div>
+                <div class="movie-card-overlay">
+                    <h3 th:text="${movie.title}">Movie Title</h3>
+                    <div class="movie-card-meta">
+                        <span th:text="${movie.releaseDate != null ? movie.releaseDate.year : 'Now'}">2026</span>
+                        <span>&bull;</span>
+                        <span th:text="${movie.genre != null and !movie.genre.isBlank() ? movie.genre : 'Featured'}">Drama</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <div th:if="${movies == null or movies.isEmpty()}" class="movie-empty-state">
+        <i class="bi bi-search"></i>
+        <h2>No movies found</h2>
+        <p>Try a different search or add a new movie to the library.</p>
+    </div>
+</div>
+
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+<script>
+    document.querySelectorAll("[data-rail-target]").forEach(function (button) {
+        button.addEventListener("click", function () {
+            var rail = document.getElementById(button.getAttribute("data-rail-target"));
+            if (!rail) {
+                return;
+            }
+
+            var direction = Number(button.getAttribute("data-direction") || "1");
+            var distance = Math.max(rail.clientWidth * 0.8, 260);
+            rail.scrollBy({left: direction * distance, behavior: "smooth"});
+        });
+    });
+</script>
+</body>
+</html>

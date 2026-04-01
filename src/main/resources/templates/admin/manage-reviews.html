@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Manage Reviews')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+<div class="container py-4">
+    <div class="page-header"><h1>Manage Reviews</h1><p>Approve or remove user reviews.</p></div>
+    <div class="cr-card p-0" style="overflow:hidden;">
+        <table class="cr-table">
+            <thead><tr><th>ID</th><th>User</th><th>Movie</th><th>Rating</th><th>Status</th><th>Comment</th><th>Actions</th></tr></thead>
+            <tbody>
+            <tr th:each="review : ${allReviews}">
+                <td th:text="${review.id}">1</td>
+                <td th:text="${review.username}">user</td>
+                <td th:text="${review.movieTitle}">movie</td>
+                <td><span style="color:var(--cr-gold);font-weight:700;"><i class="bi bi-star-fill me-1" style="font-size:.75rem;"></i><span th:text="${review.rating}">5</span></span></td>
+                <td><span class="badge-approved" th:if="${review.approved}">Approved</span><span class="badge-pending" th:if="${!review.approved}">Pending</span></td>
+                <td style="max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" th:text="${review.comment}">Comment</td>
+                <td>
+                    <div class="d-flex gap-2">
+                        <form th:if="${!review.approved}" th:action="@{/admin/reviews/approve/{id}(id=${review.id})}" method="post">
+                            <button class="btn btn-cr-success btn-sm" type="submit">Approve</button>
+                        </form>
+                        <form th:action="@{/admin/reviews/delete/{id}(id=${review.id})}" method="post">
+                            <button class="btn btn-cr-danger btn-sm" type="submit">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

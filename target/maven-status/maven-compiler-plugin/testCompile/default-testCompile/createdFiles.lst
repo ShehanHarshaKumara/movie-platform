@@ -1,0 +1,10 @@
+com\movierental\controller\MovieControllerViewTest.class
+com\movierental\controller\RecentlyWatchedControllerTest.class
+com\movierental\controller\ReviewControllerViewTest.class
+com\movierental\MovieRentalApplicationTests.class
+com\movierental\service\RentalManagerTest.class
+com\movierental\repository\FileHandlerTest.class
+com\movierental\controller\AdminControllerViewTest.class
+com\movierental\controller\RentalControllerViewTest.class
+com\movierental\model\LegacyStorageParsingTests.class
+com\movierental\controller\UserControllerViewTest.class

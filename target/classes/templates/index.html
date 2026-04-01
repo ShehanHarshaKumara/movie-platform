@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Home')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+
+<!-- Hero -->
+<section style="background:linear-gradient(135deg,#0a0a0f 0%,#1a0a0d 50%,#0a0a0f 100%);padding:5rem 0 4rem;border-bottom:1px solid var(--cr-border);">
+    <div class="container text-center">
+        <div class="mb-3" style="font-size:.85rem;font-weight:600;letter-spacing:1.5px;color:var(--cr-accent);text-transform:uppercase;">Premium Streaming & Rentals</div>
+        <h1 style="font-size:clamp(2.5rem,6vw,4rem);font-weight:900;line-height:1.1;margin-bottom:1.25rem;">
+            Your Cinema,<br><span style="color:var(--cr-accent);">Anywhere.</span>
+        </h1>
+        <p style="color:var(--cr-muted);font-size:1.15rem;max-width:520px;margin:0 auto 2rem;">
+            Rent the latest films, track your watch history, and share reviews — all in one place.
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="/movies" class="btn btn-cr-primary btn-lg px-4">
+                <i class="bi bi-collection-play me-2"></i>Browse Movies
+            </a>
+            <a href="/users/register" class="btn btn-cr-outline btn-lg px-4" th:if="${session.loggedInUser == null}">
+                Get Started Free
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section class="container py-5">
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="cr-card p-4 h-100 text-center">
+                <div style="width:52px;height:52px;border-radius:12px;background:rgba(229,9,20,.15);display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;">
+                    <i class="bi bi-camera-reels fs-4" style="color:var(--cr-accent)"></i>
+                </div>
+                <h5 style="font-weight:700;margin-bottom:.4rem;">Wide Selection</h5>
+                <p class="text-muted mb-0" style="font-size:.875rem;">Hundreds of movies spanning all genres and eras</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="cr-card p-4 h-100 text-center">
+                <div style="width:52px;height:52px;border-radius:12px;background:rgba(245,197,24,.15);display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;">
+                    <i class="bi bi-star-fill fs-4" style="color:var(--cr-gold)"></i>
+                </div>
+                <h5 style="font-weight:700;margin-bottom:.4rem;">Ratings & Reviews</h5>
+                <p class="text-muted mb-0" style="font-size:.875rem;">Real user reviews to help you choose the best films</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="cr-card p-4 h-100 text-center">
+                <div style="width:52px;height:52px;border-radius:12px;background:rgba(0,200,150,.15);display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;">
+                    <i class="bi bi-clock-history fs-4" style="color:var(--cr-success)"></i>
+                </div>
+                <h5 style="font-weight:700;margin-bottom:.4rem;">Watch History</h5>
+                <p class="text-muted mb-0" style="font-size:.875rem;">Automatically track every movie you've rented</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="cr-card p-4 h-100 text-center">
+                <div style="width:52px;height:52px;border-radius:12px;background:rgba(79,195,247,.15);display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;">
+                    <i class="bi bi-tags-fill fs-4" style="color:var(--cr-info)"></i>
+                </div>
+                <h5 style="font-weight:700;margin-bottom:.4rem;">Affordable Pricing</h5>
+                <p class="text-muted mb-0" style="font-size:.875rem;">Competitive daily rental rates, no subscriptions needed</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recently Added -->
+<section class="container pb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 style="font-size:1.4rem;font-weight:800;margin:0;">Recently Added</h2>
+        <a href="/movies" class="btn btn-cr-outline btn-sm">View All <i class="bi bi-arrow-right ms-1"></i></a>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-3" th:each="movie : ${movies}" th:if="${movieStat.index < 4}">
+            <div class="cr-card p-0 h-100" style="overflow:hidden;">
+                <div style="background:linear-gradient(135deg,var(--cr-surface),var(--cr-border));height:130px;display:flex;align-items:center;justify-content:center;">
+                    <i class="bi bi-film" style="font-size:3rem;color:var(--cr-border);opacity:.6;"></i>
+                </div>
+                <div class="p-3">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h6 style="font-weight:700;margin:0;font-size:.95rem;" th:text="${movie.title}">Movie Title</h6>
+                        <span class="badge-genre" th:text="${movie.genre}">Genre</span>
+                    </div>
+                    <p class="text-muted mb-2" style="font-size:.8rem;"><i class="bi bi-person me-1"></i><span th:text="${movie.director}">Director</span></p>
+                    <p style="font-size:.85rem;color:var(--cr-success);font-weight:600;margin-bottom:.75rem;">
+                        $<span th:text="${movie.rentalPrice}">9.99</span><span style="color:var(--cr-muted);font-weight:400;">/day</span>
+                    </p>
+                    <a th:href="@{/movies/{id}(id=${movie.id})}" class="btn btn-cr-outline btn-sm w-100">View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

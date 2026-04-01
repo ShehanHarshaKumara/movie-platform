@@ -1,0 +1,22 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.18)
+
+2026-03-31 19:32:40.243  INFO 13100 --- [           main] com.movierental.MovieRentalApplication   : Starting MovieRentalApplication v1.0.0 using Java 21.0.5 on LAPTOP-MVCR73TF with PID 13100 (C:\Users\Sadun Kumara\Downloads\Movie_Platform_Modern\Movie_Platform_Clean\target\movie-rental-platform-1.0.0.jar started by Sadun Kumara in C:\Users\Sadun Kumara\Downloads\Movie_Platform_Modern\Movie_Platform_Clean)
+2026-03-31 19:32:40.247  INFO 13100 --- [           main] com.movierental.MovieRentalApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-03-31 19:32:41.274  INFO 13100 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2026-03-31 19:32:41.285  INFO 13100 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-31 19:32:41.286  INFO 13100 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]
+2026-03-31 19:32:41.338  INFO 13100 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-03-31 19:32:41.339  INFO 13100 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1045 ms
+2026-03-31 19:32:41.530  INFO 13100 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2026-03-31 19:32:41.694  INFO 13100 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2026-03-31 19:32:41.704  INFO 13100 --- [           main] com.movierental.MovieRentalApplication   : Started MovieRentalApplication in 1.902 seconds (JVM running for 2.272)
+2026-03-31 19:32:50.914  INFO 13100 --- [nio-8080-exec-4] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-31 19:32:50.915  INFO 13100 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-31 19:32:50.916  INFO 13100 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms

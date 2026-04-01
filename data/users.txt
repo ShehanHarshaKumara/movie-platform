@@ -1,0 +1,2 @@
+1,admin,$2a$10$rp0Atr4GbOuouve/0PdR7eSom9s6Wc.WPzmwPE5qR9BWlVSjiikdi,admin@movierental.com,Administrator,ADMIN,/uploads/profiles/admin-cf0bc206.jpg,2024-01-01T00:00,true
+6,Harsha,$2a$10$opk2JVDHQPx974CheHV21OJ383jF9tJ/cMNwdAjh9Jfdsq9eetCJq,Harsha@123gmail.com,Harsha Kumara,USER,/uploads/profiles/harsha-f046bba2.png,2026-03-31T16:53:37.959508200,true

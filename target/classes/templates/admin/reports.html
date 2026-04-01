@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Reports')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+<div class="container py-4">
+    <div class="page-header"><h1>Platform Reports</h1><p>Analytics and performance overview.</p></div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-value" th:text="${report.totalRentals}">0</div><div class="stat-label">Total Rentals</div></div></div>
+        <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-value" style="color:var(--cr-success);">$<span th:text="${#numbers.formatDecimal(report.totalRevenue,1,2)}">0.00</span></div><div class="stat-label">Total Revenue</div></div></div>
+        <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-value" th:text="${report.totalUsers}">0</div><div class="stat-label">Total Users</div></div></div>
+        <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-value" th:text="${report.totalMovies}">0</div><div class="stat-label">Total Movies</div></div></div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="cr-card p-4 h-100">
+                <h2 style="font-size:1rem;font-weight:700;margin-bottom:1rem;"><i class="bi bi-trophy me-2" style="color:var(--cr-gold);"></i>Top Rated Movies</h2>
+                <ol class="mb-0" style="padding-left:1.25rem;">
+                    <li th:each="movie : ${report.topRatedMovies}" class="mb-2" style="color:var(--cr-text);">
+                        <span th:text="${movie.title}">Movie</span>
+                        <span class="badge-genre ms-2" th:text="${movie.genre}">Genre</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="cr-card p-4 h-100">
+                <h2 style="font-size:1rem;font-weight:700;margin-bottom:1rem;"><i class="bi bi-calendar3 me-2" style="color:var(--cr-info);"></i>Revenue by Month</h2>
+                <div class="d-flex flex-column gap-2">
+                    <div class="d-flex justify-content-between align-items-center p-2" style="background:var(--cr-surface);border-radius:6px;" th:each="entry : ${monthlyRevenue}">
+                        <span th:text="${entry.key}" style="font-size:.875rem;">Month</span>
+                        <strong style="color:var(--cr-success);">$<span th:text="${#numbers.formatDecimal(entry.value,1,2)}">0.00</span></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="cr-card p-4 h-100">
+                <h2 style="font-size:1rem;font-weight:700;margin-bottom:1rem;"><i class="bi bi-tags me-2" style="color:var(--cr-accent);"></i>Rentals by Genre</h2>
+                <div class="d-flex flex-column gap-2">
+                    <div class="d-flex justify-content-between align-items-center p-2" style="background:var(--cr-surface);border-radius:6px;" th:each="entry : ${report.rentalsByGenre}">
+                        <span th:text="${entry.key}" style="font-size:.875rem;">Genre</span>
+                        <strong th:text="${entry.value}">0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="cr-card p-4 h-100">
+                <h2 style="font-size:1rem;font-weight:700;margin-bottom:1rem;"><i class="bi bi-person-badge me-2" style="color:var(--cr-success);"></i>Most Active Users</h2>
+                <div class="d-flex flex-column gap-2">
+                    <div class="d-flex justify-content-between align-items-center p-2" style="background:var(--cr-surface);border-radius:6px;" th:each="userItem : ${report.activeUsers}">
+                        <span th:text="${userItem.username}" style="font-size:.875rem;">user</span>
+                        <a class="btn btn-cr-outline btn-sm" th:href="@{/admin/reports/user/{id}(id=${userItem.id})}">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

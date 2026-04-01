@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Movie Management')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div class="page-header mb-0">
+            <h1><i class="bi bi-film me-2" style="color:var(--cr-accent);"></i>Movie Management</h1>
+            <p>Add, update, delete, and review every movie from one admin screen.</p>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <a class="btn btn-cr-outline" href="/admin/dashboard"><i class="bi bi-arrow-left me-1"></i>Dashboard</a>
+            <a class="btn btn-cr-primary" href="/movies/add?returnTo=admin"><i class="bi bi-plus-circle me-1"></i>Add New Movie</a>
+        </div>
+    </div>
+
+    <div th:if="${movies == null or movies.isEmpty()}" class="alert cr-alert-info p-4 text-center">
+        <i class="bi bi-film fs-2 d-block mb-2"></i>No movies available yet. Add your first movie to generate cards for users.
+    </div>
+
+    <div th:if="${movies != null and !movies.isEmpty()}" class="cr-table-wrapper">
+        <table class="cr-table">
+            <thead>
+            <tr>
+                <th>Poster</th>
+                <th>Movie</th>
+                <th>Price</th>
+                <th>Copies</th>
+                <th>Download</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="movie : ${movies}">
+                <td>
+                    <div class="poster-frame poster-frame-sm">
+                        <img th:if="${movie.imagePath != null and !movie.imagePath.isBlank()}" th:src="${movie.imagePath}" th:alt="${movie.title}" class="poster-image">
+                        <div th:if="${movie.imagePath == null or movie.imagePath.isBlank()}" class="poster-placeholder">
+                            <i class="bi bi-film"></i>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div style="font-weight:700;" th:text="${movie.title}">Movie Title</div>
+                    <div class="text-muted" style="font-size:.8rem;"><span th:text="${movie.director}">Director</span> | <span th:text="${movie.genre}">Genre</span></div>
+                    <div class="text-muted" style="font-size:.8rem;" th:text="${movie.releaseDate}">2026-03-30</div>
+                </td>
+                <td>
+                    <span style="font-weight:700;color:var(--cr-success);">$<span th:text="${#numbers.formatDecimal(movie.rentalPrice,1,2)}">0.00</span></span>
+                </td>
+                <td>
+                    <span th:text="${movie.availableCopies}">0</span> / <span th:text="${movie.totalCopies}">0</span>
+                </td>
+                <td>
+                    <a class="btn btn-cr-outline btn-sm" th:if="${movie.downloadLink != null and !movie.downloadLink.isBlank()}" th:href="${movie.downloadLink}" target="_blank" rel="noopener">Open Link</a>
+                    <span class="text-muted" style="font-size:.8rem;" th:if="${movie.downloadLink == null or movie.downloadLink.isBlank()}">No link</span>
+                </td>
+                <td>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a class="btn btn-cr-outline btn-sm" th:href="@{/movies/{id}(id=${movie.id})}">View Details</a>
+                        <a class="btn btn-cr-gold btn-sm" th:href="@{/movies/edit/{id}(id=${movie.id},returnTo='admin')}">Edit</a>
+                        <form th:action="@{/movies/delete/{id}(id=${movie.id})}" method="post">
+                            <input type="hidden" name="returnTo" value="admin">
+                            <button class="btn btn-cr-danger btn-sm" type="submit">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Manage Rentals')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+<div class="container py-4">
+    <div class="page-header"><h1>Manage Rentals</h1><p>All rental activity across the platform.</p></div>
+    <div class="cr-card p-0" style="overflow:hidden;">
+        <table class="cr-table">
+            <thead><tr><th>Rental ID</th><th>User</th><th>Movie</th><th>Rented</th><th>Due</th><th>Status</th><th>Total Fees</th></tr></thead>
+            <tbody>
+            <tr th:each="rental : ${rentals}">
+                <td th:text="${rental.id}">1</td>
+                <td th:text="${userLookup[rental.userId] != null ? userLookup[rental.userId].username : 'User #' + rental.userId}">User</td>
+                <td th:text="${movieLookup[rental.movieId] != null ? movieLookup[rental.movieId].title : 'Movie #' + rental.movieId}">Movie</td>
+                <td th:text="${rental.rentalDate}">Date</td>
+                <td th:text="${rental.dueDate}">Due</td>
+                <td><span class="badge-active" th:if="${!rental.returned}">Active</span><span class="badge-returned" th:if="${rental.returned}">Returned</span></td>
+                <td style="font-weight:600;color:var(--cr-success);">$<span th:text="${#numbers.formatDecimal(rental.rentalFee + rental.lateFee,1,2)}">0.00</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('All Rentals')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+<div class="container py-4">
+    <div class="page-header"><h1>All Rentals</h1></div>
+    <div class="cr-card p-0" style="overflow:hidden;">
+        <table class="cr-table">
+            <thead><tr><th>ID</th><th>User</th><th>Movie</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody>
+            <tr th:each="rental : ${rentals}">
+                <td th:text="${rental.id}">1</td>
+                <td th:text="${rental.userId}">user</td>
+                <td th:text="${rental.movieId}">movie</td>
+                <td th:text="${rental.rentalDate}">date</td>
+                <td><span class="badge-active" th:if="${!rental.returned}">Active</span><span class="badge-returned" th:if="${rental.returned}">Returned</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

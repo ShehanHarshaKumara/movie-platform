@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Watch History')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+        <div class="page-header mb-0"><h1>Watch History</h1><p>Recently watched movies displayed in LIFO order.</p></div>
+        <form action="/recently-watched/clear" method="post" th:if="${movieList != null and !movieList.isEmpty()}">
+            <button class="btn btn-cr-danger" type="submit"><i class="bi bi-trash me-1"></i>Clear History</button>
+        </form>
+    </div>
+
+    <div th:if="${movieList == null or movieList.isEmpty()}" class="alert cr-alert-info p-4 text-center">
+        <i class="bi bi-clock-history fs-2 d-block mb-2"></i>Your watch history is empty. Start renting movies!
+        <a href="/movies" class="btn btn-cr-primary btn-sm mt-2">Browse Movies</a>
+    </div>
+
+    <div th:if="${movieList != null and !movieList.isEmpty()}" class="row g-3 mb-4">
+        <div class="col-md-6">
+            <div class="cr-card p-4 h-100">
+                <div class="text-muted mb-2" style="font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;">Latest Watched</div>
+                <div th:if="${latestMovie != null}">
+                    <h2 style="font-size:1.25rem;font-weight:800;margin-bottom:.35rem;" th:text="${latestMovie.title}">Movie Title</h2>
+                    <p class="text-muted mb-2"><span th:text="${latestMovie.director}">Director</span> • <span th:text="${latestMovie.genre}">Genre</span></p>
+                    <a class="btn btn-cr-primary btn-sm" th:href="@{/movies/{id}(id=${latestMovie.id})}">Open Movie</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="cr-card p-4 h-100">
+                <div class="text-muted mb-2" style="font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;">Stack Summary</div>
+                <div style="font-size:2rem;font-weight:900;" th:text="${stackSize}">0</div>
+                <p class="text-muted mb-0">Movies currently stored in your recently watched stack.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3" th:if="${movieList != null and !movieList.isEmpty()}">
+        <div class="col-md-6 col-lg-4" th:each="movie, stat : ${movieList}">
+            <div class="cr-card p-3 d-flex align-items-center gap-3">
+                <div style="width:48px;height:48px;border-radius:10px;background:var(--cr-surface);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="bi bi-film" style="color:var(--cr-muted);font-size:1.25rem;"></i>
+                </div>
+                <div class="flex-grow-1 min-w-0">
+                    <div style="font-size:.72rem;color:var(--cr-info);font-weight:700;margin-bottom:.15rem;">LIFO POSITION <span th:text="${stat.count}">1</span></div>
+                    <div style="font-weight:600;font-size:.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" th:text="${movie.title}">Movie Title</div>
+                    <div class="text-muted" style="font-size:.78rem;"><span th:text="${movie.director}">Director</span> • <span th:text="${movie.genre}">Genre</span></div>
+                </div>
+                <div class="d-flex flex-column gap-2">
+                    <a class="btn btn-cr-outline btn-sm flex-shrink-0" th:href="@{/movies/{id}(id=${movie.id})}">View</a>
+                    <form th:action="@{/recently-watched/remove/{id}(id=${movie.id})}" method="post">
+                        <button class="btn btn-cr-danger btn-sm w-100" type="submit">Remove</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

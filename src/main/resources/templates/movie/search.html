@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Search Results')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+<div class="container py-4">
+    <div class="page-header">
+        <h1>Search Results</h1>
+        <p th:text="'Results for: ' + ${keyword}">Results</p>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-6 col-xl-4" th:each="movie : ${movies}">
+            <div class="cr-card p-3">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 style="font-weight:700;margin:0;font-size:.95rem;" th:text="${movie.title}">Title</h5>
+                    <span class="badge-genre ms-2" th:text="${movie.genre}">Genre</span>
+                </div>
+                <p class="text-muted mb-2" style="font-size:.82rem;" th:text="${movie.director}">Director</p>
+                <a class="btn btn-cr-outline btn-sm" th:href="@{/movies/{id}(id=${movie.id})}">View Details</a>
+            </div>
+        </div>
+    </div>
+    <div th:if="${movies == null or movies.isEmpty()}" class="alert cr-alert-info mt-4 text-center p-4">
+        <i class="bi bi-search fs-2 d-block mb-2"></i>No results found for "<span th:text="${keyword}">query</span>".
+        <a href="/movies" class="btn btn-cr-primary btn-sm mt-2">Browse All Movies</a>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

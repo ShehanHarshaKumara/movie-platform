@@ -1,0 +1,10 @@
+HTTP/1.1 302 
+Set-Cookie: JSESSIONID=D2C47CAAD5D8DA04C6EA0E5802A5AB04; Path=/; HttpOnly
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+Location: http://localhost:8080/admin/dashboard;jsessionid=D2C47CAAD5D8DA04C6EA0E5802A5AB04
+Content-Language: en-US
+Content-Length: 0
+Date: Tue, 31 Mar 2026 14:00:16 GMT
+

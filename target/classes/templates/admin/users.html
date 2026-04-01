@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Manage Users')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+<div class="container py-4">
+    <div class="page-header"><h1>Manage Users</h1><p>View, activate, deactivate, or remove user accounts.</p></div>
+    <div class="cr-card p-0" style="overflow:hidden;">
+        <table class="cr-table">
+            <thead><tr><th>ID</th><th>User</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+            <tr th:each="userItem : ${users}">
+                <td th:text="${userItem.id}">1</td>
+                <td>
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="avatar" th:if="${userItem.imagePath != null and !userItem.imagePath.isBlank()}">
+                            <img class="avatar-image" th:src="${userItem.imagePath}" th:alt="${userItem.fullName}">
+                        </div>
+                        <div class="avatar avatar-initial" th:if="${userItem.imagePath == null or userItem.imagePath.isBlank()}"
+                             th:text="${#strings.toUpperCase(#strings.substring(userItem.username,0,1))}">U</div>
+                        <div>
+                            <div style="font-weight:700;" th:text="${userItem.fullName}">Name</div>
+                            <div class="text-muted" style="font-size:.82rem;">@<span th:text="${userItem.username}">username</span></div>
+                        </div>
+                    </div>
+                </td>
+                <td th:text="${userItem.email}">email</td>
+                <td><span th:text="${userItem.role}" style="font-size:.8rem;font-weight:600;">USER</span></td>
+                <td><span class="badge-active" th:if="${userItem.active}">Active</span><span class="badge-returned" th:if="${!userItem.active}">Inactive</span></td>
+                <td>
+                    <div class="d-flex gap-2" th:if="${session.loggedInUser != null and session.loggedInUser.id != userItem.id}">
+                        <form th:action="@{/admin/users/toggle/{id}(id=${userItem.id})}" method="post">
+                            <button class="btn btn-cr-gold btn-sm" type="submit" th:text="${userItem.active ? 'Deactivate' : 'Activate'}">Toggle</button>
+                        </form>
+                        <form th:action="@{/admin/users/delete/{id}(id=${userItem.id})}" method="post">
+                            <button class="btn btn-cr-danger btn-sm" type="submit">Delete</button>
+                        </form>
+                        <a class="btn btn-cr-outline btn-sm" th:href="@{/admin/reports/user/{id}(id=${userItem.id})}">Report</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

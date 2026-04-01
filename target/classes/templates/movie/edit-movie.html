@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Edit Movie')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="cr-card p-4">
+                <h1 class="mb-1" style="font-size:1.5rem;font-weight:800;"><i class="bi bi-pencil-square me-2" style="color:var(--cr-gold);"></i>Edit Movie</h1>
+                <p class="text-muted mb-4" th:text="'Update poster, download link, and rental details for ' + ${movie.title}">Edit movie details</p>
+                <form th:action="@{/movies/edit/{id}(id=${movie.id})}" method="post" enctype="multipart/form-data" th:object="${movie}">
+                    <input type="hidden" name="returnTo" th:value="${returnTo}">
+                    <input type="hidden" th:field="*{imagePath}">
+                    <div class="row g-4">
+                        <div class="col-lg-4">
+                            <label class="form-label">Current Poster</label>
+                            <div class="poster-frame" style="max-width:260px;">
+                                <img th:if="${movie.imagePath != null and !movie.imagePath.isBlank()}" th:src="${movie.imagePath}" th:alt="${movie.title}" class="poster-image">
+                                <div th:if="${movie.imagePath == null or movie.imagePath.isBlank()}" class="poster-placeholder">
+                                    <i class="bi bi-film" style="font-size:4rem;"></i>
+                                </div>
+                            </div>
+                            <div class="text-muted mt-2" style="font-size:.8rem;">Upload a new image below only if you want to replace the current poster.</div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Movie Name</label>
+                                    <input class="form-control" type="text" th:field="*{title}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Director</label>
+                                    <input class="form-control" type="text" th:field="*{director}" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Genre</label>
+                                    <input class="form-control" type="text" th:field="*{genre}" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Release Date</label>
+                                    <input class="form-control" type="date" th:field="*{releaseDate}" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Rental Price ($/day)</label>
+                                    <input class="form-control" type="number" step="0.01" min="0.01" th:field="*{rentalPrice}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Total Copies</label>
+                                    <input class="form-control" type="number" min="1" th:field="*{totalCopies}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Available Copies</label>
+                                    <input class="form-control" th:value="${movie.availableCopies}" readonly style="opacity:.6;cursor:not-allowed;">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Movie Download Link</label>
+                                    <input class="form-control" type="url" th:field="*{downloadLink}" placeholder="https://example.com/download/movie">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Replace Poster Image</label>
+                                    <input class="form-control" type="file" name="posterImage" accept=".jpg,.jpeg,.png,.gif,.webp">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-control" rows="4" th:field="*{description}" placeholder="Movie summary..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 mt-4">
+                        <button class="btn btn-cr-gold px-4" type="submit"><i class="bi bi-check-lg me-1"></i>Update Movie</button>
+                        <a class="btn btn-cr-outline" th:if="${returnTo == 'admin'}" href="/admin/movies">Cancel</a>
+                        <a class="btn btn-cr-outline" th:if="${returnTo != 'admin'}" th:href="@{/movies/{id}(id=${movie.id})}">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

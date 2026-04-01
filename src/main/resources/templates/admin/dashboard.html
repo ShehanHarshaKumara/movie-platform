@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Admin Dashboard')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div th:replace="fragments :: alerts"></div>
+<div class="container py-4">
+    <div class="page-header"><h1><i class="bi bi-grid me-2" style="color:var(--cr-accent);"></i>Admin Dashboard</h1><p>Platform overview and quick actions.</p></div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-4 col-xl-2"><div class="stat-card"><div class="stat-value" th:text="${totalUsers}">0</div><div class="stat-label"><i class="bi bi-people me-1"></i>Users</div></div></div>
+        <div class="col-6 col-md-4 col-xl-2"><div class="stat-card"><div class="stat-value" th:text="${totalMovies}">0</div><div class="stat-label"><i class="bi bi-film me-1"></i>Movies</div></div></div>
+        <div class="col-6 col-md-4 col-xl-2"><div class="stat-card"><div class="stat-value" th:text="${activeRentals}">0</div><div class="stat-label"><i class="bi bi-bag me-1"></i>Active</div></div></div>
+        <div class="col-6 col-md-4 col-xl-2"><div class="stat-card"><div class="stat-value" th:text="${pendingReviews}">0</div><div class="stat-label"><i class="bi bi-chat me-1"></i>Pending</div></div></div>
+        <div class="col-6 col-md-4 col-xl-2"><div class="stat-card"><div class="stat-value" style="color:#ff6b6b;" th:text="${overdueRentals}">0</div><div class="stat-label"><i class="bi bi-exclamation-triangle me-1"></i>Overdue</div></div></div>
+        <div class="col-6 col-md-4 col-xl-2"><div class="stat-card"><div class="stat-value" style="color:var(--cr-success);">$<span th:text="${#numbers.formatDecimal(report.totalRevenue,1,2)}">0</span></div><div class="stat-label"><i class="bi bi-cash me-1"></i>Revenue</div></div></div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-6 col-xl-2"><a class="btn btn-cr-primary w-100 py-3 d-flex align-items-center justify-content-center gap-2" href="/admin/movies"><i class="bi bi-film fs-5"></i>Manage Movies</a></div>
+        <div class="col-md-6 col-xl-2"><a class="btn btn-cr-outline w-100 py-3 d-flex align-items-center justify-content-center gap-2" href="/movies/add?returnTo=admin"><i class="bi bi-plus-circle fs-5"></i>Add Movie</a></div>
+        <div class="col-md-6 col-xl-2"><a class="btn btn-cr-outline w-100 py-3 d-flex align-items-center justify-content-center gap-2" href="/admin/users"><i class="bi bi-people fs-5"></i>Manage Users</a></div>
+        <div class="col-md-6 col-xl-2"><a class="btn btn-cr-outline w-100 py-3 d-flex align-items-center justify-content-center gap-2" href="/admin/rentals"><i class="bi bi-bag-check fs-5"></i>View Rentals</a></div>
+        <div class="col-md-6 col-xl-2"><a class="btn btn-cr-outline w-100 py-3 d-flex align-items-center justify-content-center gap-2" href="/admin/reviews"><i class="bi bi-star fs-5"></i>Manage Reviews</a></div>
+        <div class="col-md-6 col-xl-2"><a class="btn btn-cr-outline w-100 py-3 d-flex align-items-center justify-content-center gap-2" href="/admin/reports"><i class="bi bi-bar-chart fs-5"></i>Open Reports</a></div>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: head('Admin Login')"></head>
+<body style="background:var(--cr-bg);">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6">
+            <div class="text-center mb-4">
+                <div style="width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#1a1a26,#2a2a3d);border:1px solid var(--cr-border);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
+                    <i class="bi bi-shield-lock fs-3" style="color:var(--cr-accent);"></i>
+                </div>
+                <h1 style="font-size:1.6rem;font-weight:800;">Administrator Login</h1>
+                <p class="text-muted">Restricted — authorised users only</p>
+            </div>
+
+            <div class="cr-card p-4">
+                <div th:if="${error}" class="alert cr-alert-danger d-flex gap-2 align-items-center p-3 mb-3">
+                    <i class="bi bi-exclamation-circle-fill"></i><span th:text="${error}">Error</span>
+                </div>
+                <form action="/admin/login" method="post" class="d-grid gap-3">
+                    <div>
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" value="admin" required autofocus>
+                    </div>
+                    <div>
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" value="Admin@123" required>
+                    </div>
+                    <button type="submit" class="btn btn-cr-primary py-2">
+                        <i class="bi bi-shield-check me-1"></i>Open Admin Panel
+                    </button>
+                </form>
+                <hr class="my-3">
+                <div style="background:rgba(245,197,24,.07);border:1px solid rgba(245,197,24,.2);border-radius:8px;padding:.75rem 1rem;font-size:.82rem;">
+                    <div style="font-weight:700;color:var(--cr-gold);margin-bottom:.3rem;">Default Credentials</div>
+                    <div class="text-muted">Username: <strong style="color:var(--cr-text);">admin</strong></div>
+                    <div class="text-muted">Password: <strong style="color:var(--cr-text);">Admin@123</strong></div>
+                </div>
+            </div>
+
+            <p class="text-center mt-3" style="font-size:.875rem;">
+                <a href="/users/login" class="text-muted"><i class="bi bi-arrow-left me-1"></i>Back to user login</a>
+            </p>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments :: scripts"></div>
+</body>
+</html>

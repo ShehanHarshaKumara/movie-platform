@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} + ' - CineRent'">CineRent</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        :root{--cr-bg:#0a0a0f;--cr-surface:#12121a;--cr-card:#1a1a26;--cr-border:#2a2a3d;--cr-accent:#e50914;--cr-accent-h:#c1000f;--cr-gold:#f5c518;--cr-text:#e8e8f0;--cr-muted:#888899;--cr-success:#00c896;--cr-info:#4fc3f7}
+        body{background:var(--cr-bg);color:var(--cr-text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;min-height:100vh}
+        .cr-navbar{background:rgba(10,10,15,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--cr-border);padding:.75rem 0}
+        .cr-navbar .navbar-brand{font-size:1.4rem;font-weight:800;letter-spacing:-.5px;color:var(--cr-text)!important}
+        .cr-navbar .navbar-brand span{color:var(--cr-accent)}
+        .cr-navbar .nav-link{color:var(--cr-muted)!important;font-size:.875rem;font-weight:500;transition:color .2s;padding:.5rem .75rem!important}
+        .cr-navbar .nav-link:hover,.cr-navbar .nav-link.active{color:var(--cr-text)!important}
+        .cr-navbar .dropdown-menu{background:var(--cr-card);border:1px solid var(--cr-border)}
+        .cr-navbar .dropdown-item{color:var(--cr-muted);font-size:.875rem}
+        .cr-navbar .dropdown-item:hover{background:var(--cr-border);color:var(--cr-text)}
+        .btn-cr-primary{background:var(--cr-accent);border:none;color:#fff;font-weight:600;border-radius:6px;transition:background .2s,transform .1s}
+        .btn-cr-primary:hover,.btn-cr-primary:focus{background:var(--cr-accent-h);color:#fff;transform:translateY(-1px)}
+        .btn-cr-outline{background:transparent;border:1px solid var(--cr-border);color:var(--cr-text);font-weight:500;border-radius:6px;transition:all .2s}
+        .btn-cr-outline:hover{border-color:var(--cr-text);color:var(--cr-text);background:rgba(255,255,255,.05)}
+        .btn-cr-success{background:var(--cr-success);border:none;color:#0a0a0f;font-weight:600;border-radius:6px}
+        .btn-cr-success:hover{background:#00a87e;color:#0a0a0f}
+        .btn-cr-gold{background:var(--cr-gold);border:none;color:#0a0a0f;font-weight:700;border-radius:6px}
+        .btn-cr-gold:hover{background:#e0b000;color:#0a0a0f}
+        .btn-cr-danger{background:rgba(229,9,20,.15);border:1px solid rgba(229,9,20,.4);color:#ff6b6b;font-weight:500;border-radius:6px}
+        .btn-cr-danger:hover{background:var(--cr-accent);color:#fff;border-color:var(--cr-accent)}
+        .cr-card{background:var(--cr-card);border:1px solid var(--cr-border);border-radius:12px;transition:border-color .2s}
+        .cr-card:hover{border-color:rgba(229,9,20,.35)}
+        .form-control,.form-select{background:var(--cr-surface)!important;border:1px solid var(--cr-border)!important;color:var(--cr-text)!important;border-radius:8px}
+        .form-control:focus,.form-select:focus{border-color:var(--cr-accent)!important;box-shadow:0 0 0 3px rgba(229,9,20,.15)!important}
+        .form-control::placeholder{color:var(--cr-muted)!important}
+        .form-label{color:var(--cr-muted);font-size:.85rem;font-weight:500;margin-bottom:.4rem}
+        .input-group-text{background:var(--cr-border)!important;border:1px solid var(--cr-border)!important;color:var(--cr-muted)!important}
+        .cr-table{width:100%;border-collapse:collapse}
+        .cr-table thead th{background:var(--cr-surface);color:var(--cr-muted);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:.75rem 1rem;border-bottom:1px solid var(--cr-border)}
+        .cr-table tbody tr{border-bottom:1px solid var(--cr-border);transition:background .15s}
+        .cr-table tbody tr:hover{background:rgba(255,255,255,.02)}
+        .cr-table tbody td{padding:.75rem 1rem;color:var(--cr-text);font-size:.9rem;vertical-align:middle}
+        .cr-table-wrapper{overflow-x:auto;border:1px solid var(--cr-border);border-radius:12px}
+        .badge-genre{background:rgba(79,195,247,.12);color:var(--cr-info);border:1px solid rgba(79,195,247,.25);font-size:.75rem;padding:.3em .7em;border-radius:999px}
+        .badge-active{background:rgba(0,200,150,.12);color:var(--cr-success);border:1px solid rgba(0,200,150,.25);font-size:.75rem;padding:.3em .7em;border-radius:999px}
+        .badge-returned{background:rgba(136,136,153,.12);color:var(--cr-muted);border:1px solid var(--cr-border);font-size:.75rem;padding:.3em .7em;border-radius:999px}
+        .badge-pending{background:rgba(245,197,24,.12);color:var(--cr-gold);border:1px solid rgba(245,197,24,.25);font-size:.75rem;padding:.3em .7em;border-radius:999px}
+        .badge-approved{background:rgba(0,200,150,.12);color:var(--cr-success);border:1px solid rgba(0,200,150,.25);font-size:.75rem;padding:.3em .7em;border-radius:999px}
+        .stat-card{background:var(--cr-card);border:1px solid var(--cr-border);border-radius:12px;padding:1.25rem 1.5rem;text-align:center}
+        .stat-card .stat-value{font-size:1.8rem;font-weight:800;color:var(--cr-text)}
+        .stat-card .stat-label{color:var(--cr-muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-top:.25rem}
+        .cr-footer{background:var(--cr-surface);border-top:1px solid var(--cr-border);padding:2.5rem 0 1.5rem;margin-top:5rem}
+        .cr-footer h6{color:var(--cr-text);font-weight:700;margin-bottom:.75rem}
+        .cr-footer a{color:var(--cr-muted);text-decoration:none;font-size:.875rem}
+        .cr-footer a:hover{color:var(--cr-text)}
+        .cr-alert-success{background:rgba(0,200,150,.1);border:1px solid rgba(0,200,150,.3);color:var(--cr-success);border-radius:8px}
+        .cr-alert-danger{background:rgba(229,9,20,.1);border:1px solid rgba(229,9,20,.3);color:#ff6b6b;border-radius:8px}
+        .cr-alert-info{background:rgba(79,195,247,.1);border:1px solid rgba(79,195,247,.3);color:var(--cr-info);border-radius:8px}
+        .cr-alert-warning{background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.3);color:var(--cr-gold);border-radius:8px}
+        .page-header{margin-bottom:2rem}
+        .page-header h1{font-size:1.75rem;font-weight:800;margin:0}
+        .page-header p{color:var(--cr-muted);margin:.25rem 0 0;font-size:.9rem}
+        .poster-frame{position:relative;overflow:hidden;border-radius:14px;border:1px solid var(--cr-border);background:linear-gradient(135deg,var(--cr-surface),var(--cr-border));aspect-ratio:2/3}
+        .poster-frame.poster-frame-sm{width:72px;min-width:72px;border-radius:12px}
+        .poster-frame.poster-frame-card{height:260px;aspect-ratio:auto}
+        .poster-image{width:100%;height:100%;object-fit:cover;display:block}
+        .poster-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(232,232,240,.35)}
+        .movie-showcase-card{display:flex;flex-direction:column;text-decoration:none;color:inherit;overflow:hidden;width:100%;transition:transform .18s,border-color .18s,box-shadow .18s}
+        .movie-showcase-card:hover{color:inherit;transform:translateY(-2px);border-color:rgba(229,9,20,.45);box-shadow:0 16px 36px rgba(0,0,0,.28)}
+        .movie-showcase-poster{width:100%;min-height:260px;background:var(--cr-surface)}
+        .movie-showcase-title{padding:1.1rem 1.35rem;background:linear-gradient(180deg,rgba(26,26,38,.96),rgba(10,10,15,.98));border-top:1px solid var(--cr-border)}
+        .movie-showcase-title h2{margin:0;font-size:1.2rem;font-weight:800;color:var(--cr-text);letter-spacing:-.02em}
+        @media (min-width: 768px){
+            .movie-showcase-card{flex-direction:row;align-items:stretch}
+            .movie-showcase-poster{width:320px;min-width:320px;min-height:220px}
+            .movie-showcase-title{display:flex;align-items:center;justify-content:flex-start;flex:1;border-top:none;border-left:1px solid var(--cr-border);padding:1.5rem 1.75rem}
+            .movie-showcase-title h2{font-size:1.6rem}
+        }
+        hr{border-color:var(--cr-border)}
+        .text-muted{color:var(--cr-muted)!important}
+        a{color:var(--cr-info)}
+        a:hover{color:#81d4fa}
+        .avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff;overflow:hidden;flex-shrink:0}
+        .avatar-initial{background:var(--cr-accent)}
+        .avatar-image{width:100%;height:100%;object-fit:cover;display:block}
+        .avatar.avatar-lg{width:84px;height:84px;border-radius:22px;font-size:1.8rem}
+        .avatar.avatar-xl{width:170px;height:170px;border-radius:28px;font-size:3.2rem}
+        .review-card{background:var(--cr-surface);border:1px solid var(--cr-border);border-radius:10px;padding:1rem 1.25rem}
+        .movie-browser-shell{max-width:1700px}
+        .movie-browser-hero{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(320px,1fr);gap:1.5rem;align-items:stretch}
+        .movie-browser-copy,.movie-browser-side{background:linear-gradient(180deg,rgba(19,19,28,.96),rgba(8,8,12,.96));border:1px solid rgba(255,255,255,.06);border-radius:22px;padding:1.6rem 1.75rem;box-shadow:0 22px 40px rgba(0,0,0,.25)}
+        .movie-browser-kicker{display:inline-flex;align-items:center;gap:.4rem;background:rgba(229,9,20,.14);border:1px solid rgba(229,9,20,.25);color:#ff8a8a;padding:.35rem .75rem;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+        .movie-browser-copy h1{font-size:clamp(2rem,3vw,3.3rem);font-weight:900;letter-spacing:-.05em;line-height:1.02;margin:1rem 0 .85rem}
+        .movie-browser-copy p{max-width:58ch;color:#a9adbb;font-size:1rem;line-height:1.7;margin:0}
+        .movie-browser-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem}
+        .movie-browser-side{display:flex;flex-direction:column;justify-content:space-between;gap:1.25rem}
+        .movie-browser-search-label{display:block;color:#f4f5f8;font-size:.95rem;font-weight:700;margin-bottom:.55rem}
+        .movie-browser-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem}
+        .movie-browser-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:1rem 1.1rem}
+        .movie-browser-stat-value{display:block;font-size:1.9rem;font-weight:900;color:#fff;line-height:1}
+        .movie-browser-stat-label{display:block;color:#8e93a5;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin-top:.3rem}
+        .movie-filter-note{display:inline-flex;align-items:center;gap:.5rem;background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.18);color:#f8d766;padding:.65rem 1rem;border-radius:999px}
+        .movie-stream-section{position:relative}
+        .movie-stream-header{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:1.25rem}
+        .movie-stream-header h2{margin:0;font-size:2rem;font-weight:900;letter-spacing:-.04em;color:#fff}
+        .movie-stream-header p{margin:.35rem 0 0;color:#8f95a8}
+        .movie-view-all-link{display:inline-flex;align-items:center;gap:.35rem;color:#f3f5f9!important;text-decoration:none;font-size:.9rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+        .movie-view-all-link:hover{color:#fff!important}
+        .movie-rail-shell{position:relative}
+        .movie-rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(180px,220px);gap:1rem;overflow-x:auto;padding-bottom:.35rem;scroll-snap-type:x proximity;scrollbar-width:none}
+        .movie-rail::-webkit-scrollbar{display:none}
+        .movie-rail-controls{display:flex;gap:.6rem}
+        .movie-rail-control{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#fff;transition:background .18s,border-color .18s,transform .18s}
+        .movie-rail-control:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);transform:translateY(-1px)}
+        .movie-poster-card{position:relative;display:block;text-decoration:none!important;color:#fff!important;border-radius:18px;overflow:hidden;background:#111;box-shadow:0 18px 30px rgba(0,0,0,.28);transform:translateY(0) scale(1);transition:transform .22s,box-shadow .22s}
+        .movie-poster-card:hover{transform:translateY(-6px) scale(1.015);box-shadow:0 28px 48px rgba(0,0,0,.42);color:#fff!important}
+        .movie-poster-card:focus-visible{outline:3px solid rgba(245,197,24,.45);outline-offset:4px}
+        .movie-poster-card .movie-poster-frame{aspect-ratio:2/3;border:none;border-radius:18px;background:#15151e}
+        .movie-poster-card-trending{scroll-snap-align:start}
+        .movie-card-badge{position:absolute;z-index:3;display:inline-flex;align-items:center;gap:.3rem;padding:.28rem .55rem;border-radius:8px;font-size:.72rem;font-weight:900;letter-spacing:.02em;text-transform:uppercase}
+        .movie-card-badge-accent{top:.7rem;left:.7rem;background:#ff2424;color:#fff;box-shadow:0 8px 16px rgba(229,9,20,.26)}
+        .movie-card-badge-rating{top:.7rem;right:.7rem;background:#f5c518;color:#0d0d12}
+        .movie-card-badge-rating i{font-size:.68rem}
+        .movie-card-badge-new{background:rgba(20,20,28,.88);color:#fff;border:1px solid rgba(255,255,255,.14)}
+        .movie-rank-badge{position:absolute;left:.8rem;bottom:4.2rem;z-index:3;font-size:3rem;font-weight:950;line-height:.9;color:#fff;text-shadow:0 10px 22px rgba(0,0,0,.6);-webkit-text-stroke:2px rgba(0,0,0,.28)}
+        .movie-card-overlay{position:absolute;inset:auto 0 0 0;z-index:2;padding:3.8rem .9rem .95rem;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.28) 25%,rgba(0,0,0,.84) 72%,rgba(0,0,0,.96) 100%)}
+        .movie-card-overlay h3{font-size:1rem;font-weight:800;letter-spacing:-.03em;line-height:1.18;margin:0;color:#fff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .movie-card-meta{display:flex;align-items:center;gap:.45rem;color:#d0d4df;font-size:.78rem;font-weight:600;margin-top:.45rem;text-shadow:0 2px 10px rgba(0,0,0,.45)}
+        .movie-grid-stream{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:1rem}
+        .movie-poster-card-grid .movie-card-overlay{padding-top:3.3rem}
+        .movie-empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:320px;background:linear-gradient(180deg,rgba(19,19,28,.96),rgba(8,8,12,.96));border:1px solid rgba(255,255,255,.06);border-radius:24px;padding:2.2rem}
+        .movie-empty-state i{font-size:3rem;color:#8f95a8;margin-bottom:.8rem}
+        .movie-empty-state h2{font-size:1.7rem;font-weight:900;margin:0 0 .45rem}
+        .movie-empty-state p{color:#9aa0b3;max-width:40ch;margin:0}
+        @media (max-width: 991.98px){
+            .movie-browser-hero{grid-template-columns:1fr}
+        }
+        @media (max-width: 767.98px){
+            .movie-stream-header{align-items:flex-start;flex-direction:column}
+            .movie-stream-header h2{font-size:1.65rem}
+            .movie-rail{grid-auto-columns:minmax(170px,72vw)}
+            .movie-grid-stream{grid-template-columns:repeat(2,minmax(0,1fr))}
+            .movie-browser-copy,.movie-browser-side{padding:1.25rem}
+        }
+    </style>
+</head>
+
+<body>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg cr-navbar sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="/"><i class="bi bi-film me-1"></i>Cine<span>Rent</span></a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="bi bi-list text-white fs-4"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto ms-3 gap-1">
+                <li class="nav-item"><a class="nav-link" href="/movies"><i class="bi bi-collection-play me-1"></i>Movies</a></li>
+                <li class="nav-item" th:if="${session.loggedInUser != null}">
+                    <a class="nav-link" href="/rentals/my-rentals"><i class="bi bi-bag me-1"></i>My Rentals</a>
+                </li>
+                <li class="nav-item" th:if="${session.loggedInUser != null}">
+                    <a class="nav-link" href="/recently-watched"><i class="bi bi-clock-history me-1"></i>History</a>
+                </li>
+                <li class="nav-item" th:if="${session.loggedInUser != null}">
+                    <a class="nav-link" href="/reviews/my"><i class="bi bi-chat-square-text me-1"></i>My Reviews</a>
+                </li>
+                <li class="nav-item dropdown" th:if="${session.loggedInUser != null and session.loggedInUser.role == 'ADMIN'}">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-shield-check me-1"></i>Admin
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/admin/dashboard"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
+                        <li><a class="dropdown-item" href="/admin/movies"><i class="bi bi-film me-2"></i>Movies</a></li>
+                        <li><a class="dropdown-item" href="/admin/users"><i class="bi bi-people me-2"></i>Users</a></li>
+                        <li><a class="dropdown-item" href="/admin/rentals"><i class="bi bi-bag-check me-2"></i>Rentals</a></li>
+                        <li><a class="dropdown-item" href="/admin/reviews"><i class="bi bi-star me-2"></i>Reviews</a></li>
+                        <li><a class="dropdown-item" href="/admin/reports"><i class="bi bi-bar-chart me-2"></i>Reports</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="d-flex align-items-center gap-2">
+                <div th:if="${session.loggedInUser == null}">
+                    <a class="btn btn-cr-outline btn-sm me-1" href="/users/login">Login</a>
+                    <a class="btn btn-cr-primary btn-sm" href="/users/register">Join Free</a>
+                </div>
+                <div th:if="${session.loggedInUser != null}" class="d-flex align-items-center gap-2">
+                    <a class="text-decoration-none d-flex align-items-center gap-2" href="/users/profile">
+                        <div class="avatar" th:if="${session.loggedInUser.imagePath != null and !session.loggedInUser.imagePath.isBlank()}">
+                            <img class="avatar-image" th:src="${session.loggedInUser.imagePath}" th:alt="${session.loggedInUser.username}">
+                        </div>
+                        <div class="avatar avatar-initial" th:if="${session.loggedInUser.imagePath == null or session.loggedInUser.imagePath.isBlank()}" th:text="${#strings.toUpperCase(#strings.substring(session.loggedInUser.username,0,1))}">U</div>
+                        <span th:text="${session.loggedInUser.username}" style="color:var(--cr-text);font-size:.875rem;font-weight:500;">User</span>
+                    </a>
+                    <a class="btn btn-cr-outline btn-sm" href="/users/logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div th:fragment="alerts" class="container mt-3">
+    <div th:if="${success}" class="alert cr-alert-success d-flex align-items-center gap-2 p-3">
+        <i class="bi bi-check-circle-fill"></i><span th:text="${success}">Success</span>
+    </div>
+    <div th:if="${error}" class="alert cr-alert-danger d-flex align-items-center gap-2 p-3">
+        <i class="bi bi-exclamation-circle-fill"></i><span th:text="${error}">Error</span>
+    </div>
+</div>
+
+<footer th:fragment="footer" class="cr-footer">
+    <div class="container">
+        <div class="row g-4 mb-3">
+            <div class="col-md-4">
+                <div style="font-size:1.2rem;font-weight:800;color:var(--cr-text);" class="mb-2">
+                    <i class="bi bi-film me-1"></i>Cine<span style="color:var(--cr-accent)">Rent</span>
+                </div>
+                <p style="color:var(--cr-muted);font-size:.875rem;">Your modern destination for movie rentals, reviews, and watch tracking.</p>
+            </div>
+            <div class="col-md-2">
+                <h6>Browse</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-1"><a href="/movies">All Movies</a></li>
+                    <li class="mb-1"><a href="/rentals/my-rentals">My Rentals</a></li>
+                    <li class="mb-1"><a href="/recently-watched">Watch History</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <h6>Account</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-1"><a href="/users/login">Sign In</a></li>
+                    <li class="mb-1"><a href="/users/register">Register</a></li>
+                    <li class="mb-1"><a href="/users/profile">Profile</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h6>Contact</h6>
+                <p style="color:var(--cr-muted);font-size:.875rem;"><i class="bi bi-envelope me-2"></i>support@cinerent.com</p>
+                <p style="color:var(--cr-muted);font-size:.875rem;"><i class="bi bi-telephone me-2"></i>+1 800 246 3368</p>
+            </div>
+        </div>
+        <hr style="opacity:.2;">
+        <p class="text-center mb-0" style="color:var(--cr-muted);font-size:.8rem;">&copy; 2026 CineRent Platform. All rights reserved.</p>
+    </div>
+</footer>
+
+<script th:fragment="scripts" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
