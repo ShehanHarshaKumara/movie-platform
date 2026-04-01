@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Platform</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07111f;
+      --panel: rgba(8, 20, 38, 0.86);
+      --text: #f3f7ff;
+      --muted: #a8b5cc;
+      --accent: #ff5f45;
+      --accent-2: #ffd166;
+      --border: rgba(255, 255, 255, 0.12);
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 95, 69, 0.22), transparent 28%),
+        radial-gradient(circle at right center, rgba(255, 209, 102, 0.2), transparent 22%),
+        linear-gradient(160deg, #040a14 0%, #07111f 52%, #0a1426 100%);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .shell {
+      width: min(900px, 100%);
+      display: grid;
+      gap: 22px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 209, 102, 0.25);
+      background: rgba(255, 209, 102, 0.08);
+      color: var(--accent-2);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 18px 0 12px;
+      font-size: clamp(2.2rem, 6vw, 4.4rem);
+      line-height: 0.95;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 1rem;
+    }
+
+    .lead {
+      max-width: 680px;
+      font-size: 1.06rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .card {
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, var(--accent), #ff7a45);
+      box-shadow: 0 16px 32px rgba(255, 95, 69, 0.28);
+    }
+
+    .button.secondary {
+      border-color: var(--border);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      color: var(--accent-2);
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="panel">
+      <div class="eyebrow">Vercel Fallback Page</div>
+      <h1>Movie Platform</h1>
+      <p class="lead">
+        This repository now serves a valid page on Vercel instead of a raw
+        <code>404: NOT_FOUND</code>. The full application is a Spring Boot server
+        with file-based storage, so it needs a Java or Docker host for complete
+        functionality.
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <h2>Why Vercel showed 404</h2>
+          <p>
+            The project did not include a Vercel-compatible static entry point or
+            function route, so Vercel had nothing to serve for the deployment.
+          </p>
+        </article>
+        <article class="card">
+          <h2>What changed</h2>
+          <p>
+            A fallback <code>index.html</code> and <code>vercel.json</code> rewrite
+            now ensure every request resolves to this page instead of failing.
+          </p>
+        </article>
+        <article class="card">
+          <h2>How to run the full app</h2>
+          <p>
+            Use the included Docker setup or the Render Blueprint in
+            <code>render.yaml</code> to deploy the real Spring Boot application.
+          </p>
+        </article>
+      </div>
+
+      <div class="actions">
+        <a class="button primary" href="https://github.com/ShehanHarshaKumara/movie-platform">Open GitHub Repo</a>
+        <a class="button secondary" href="https://render.com/">Deploy on Render</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
