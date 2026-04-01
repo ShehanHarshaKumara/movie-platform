@@ -1,0 +1,8 @@
+.git
+.idea
+target
+runtime.log
+runtime.err.log
+jar-run.log
+jar-run.err.log
+cookies.txt
