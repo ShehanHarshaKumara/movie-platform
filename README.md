@@ -1,6 +1,29 @@
 # Movie Rental Platform
+<img width="1857" height="933" alt="Screenshot 2026-04-01 162715" src="https://github.com/user-attachments/assets/6722ad8b-2ba1-4b40-a07f-2e08d9b399bb" />
+<img width="1911" height="928" alt="Screenshot 2026-04-01 162739" src="https://github.com/user-attachments/assets/419fb398-862b-4489-b3a2-fedd0cd61765" />
+<img width="1902" height="938" alt="Screenshot 2026-04-01 162800" src="https://github.com/user-attachments/assets/ec66509f-c626-4e56-81c7-c261d5b9db1d" />
+<img width="1912" height="927" alt="Screenshot 2026-04-01 162829" src="https://github.com/user-attachments/assets/03e070c3-910c-4b7d-a79e-1f07e15c5b73" />
+<img width="1907" height="935" alt="Screenshot 2026-04-01 162902" src="https://github.com/user-attachments/assets/943b3008-452d-4c8a-a17a-7571886c618f" />
+<img width="1915" height="942" alt="Screenshot 2026-04-01 162933" src="https://github.com/user-attachments/assets/7b638afe-b441-42d4-9990-ca6fbdc66223" />
+<img width="1902" height="943" alt="Screenshot 2026-04-01 162949" src="https://github.com/user-attachments/assets/231acfcf-25e4-47ba-8fae-7269b86665d5" />
+<img width="1908" height="933" alt="Screenshot 2026-04-01 163014" src="https://github.com/user-attachments/assets/5b25993b-8c95-4fd2-a0c1-979b51938cea" />
+<img width="1903" height="940" alt="Screenshot 2026-04-01 163035" src="https://github.com/user-attachments/assets/fbbe8098-5109-4530-830e-7ac8faf19286" />
+<img width="1897" height="947" alt="Screenshot 2026-04-01 163106" src="https://github.com/user-attachments/assets/a123d766-5637-4a11-a4d8-0539cda92b42" />
+<img width="1902" height="922" alt="Screenshot 2026-04-01 163126" src="https://github.com/user-attachments/assets/4d4fe2e2-3cb5-46f6-bd4f-8ea315380590" />
+<img width="1897" height="936" alt="Screenshot 2026-04-01 163150" src="https://github.com/user-attachments/assets/c267b3e0-6ea0-4dac-a3f4-c945816cbbd5" />
+<img width="1902" height="911" alt="Screenshot 2026-04-01 163213" src="https://github.com/user-attachments/assets/20556348-31ed-4b86-b9bf-189aae22edd7" />
+<img width="1915" height="938" alt="Screenshot 2026-04-01 163233" src="https://github.com/user-attachments/assets/11ef3557-40a2-4be8-b7fa-48c2db12a310" />
+<img width="1905" height="946" alt="Screenshot 2026-04-01 163252" src="https://github.com/user-attachments/assets/b44bf22c-8fbf-4aac-9d0c-aeaf2a231c3f" />
+<img width="1901" height="941" alt="Screenshot 2026-04-01 163327" src="https://github.com/user-attachments/assets/5cb59fdf-a935-4ca8-a8a4-4cab8c8b517e" />
+<img width="1848" height="932" alt="Screenshot 2026-04-01 163343" src="https://github.com/user-attachments/assets/91ce9cf2-a9d1-42fd-ae62-1048761a39f1" />
+<img width="1867" height="935" alt="Screenshot 2026-04-01 163404" src="https://github.com/user-attachments/assets/eb10b5f1-f6aa-4be6-b484-cc12d804a03a" />
+<img width="1850" height="931" alt="Screenshot 2026-04-01 163429" src="https://github.com/user-attachments/assets/11050616-27b7-4041-889f-96bb2fb9b6d6" />
+<img width="1853" height="938" alt="Screenshot 2026-04-01 163450" src="https://github.com/user-attachments/assets/9fe5f06b-3db5-47fc-a8ae-e65f0b01294c" />
 
-This project is now rebuilt as a working Spring Boot application with file-based storage and optional MySQL database setup.
+
+
+This project is now rebuilt 
+as a working Spring Boot application with file-based storage and optional MySQL database setup.
 
 ## Features
 
