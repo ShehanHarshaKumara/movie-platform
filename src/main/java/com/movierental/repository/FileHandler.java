@@ -1,6 +1,7 @@
 package com.movierental.repository;
 
 import com.movierental.util.StorageCodec;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
@@ -17,12 +18,10 @@ import java.util.List;
 @Component
 public class FileHandler {
 
-    private static final String DATA_DIRECTORY = "data";
-
     private final Path dataDirectory;
 
-    public FileHandler() {
-        this.dataDirectory = Paths.get(DATA_DIRECTORY);
+    public FileHandler(@Value("${app.data-root:data}") String dataRoot) {
+        this.dataDirectory = Paths.get(dataRoot).toAbsolutePath().normalize();
         try {
             Files.createDirectories(dataDirectory);
         } catch (IOException exception) {

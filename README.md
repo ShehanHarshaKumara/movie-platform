@@ -75,3 +75,31 @@ If port `8080` is already in use, you can run on another port:
 $env:SERVER_PORT="8081"
 .\mvnw.cmd spring-boot:run
 ```
+
+## Deployment Notes
+
+If you deploy this project to Vercel and see `404: NOT_FOUND`, that response is coming from Vercel rather than from Spring Boot. This project is a server-rendered Spring Boot application with file-backed storage, so it should be deployed on a platform that can run a long-lived JVM process or a Docker container.
+
+Good fits include Render, Railway, Fly.io, Azure App Service, AWS Elastic Beanstalk, or any VPS that can run Docker or Java.
+
+The app now supports these deployment-friendly environment variables:
+
+- `PORT` or `SERVER_PORT` for the HTTP port
+- `DATA_ROOT` for movie, user, rental, and review storage
+- `APP_UPLOAD_ROOT` for uploaded images (defaults to `DATA_ROOT/uploads`)
+
+### Docker
+
+Build the image:
+
+```powershell
+docker build -t movie-rental-platform .
+```
+
+Run the container:
+
+```powershell
+docker run --rm -p 8080:8080 -e PORT=8080 movie-rental-platform
+```
+
+To keep file-based data between restarts, mount a persistent volume or disk to `/app/data` on your host platform.

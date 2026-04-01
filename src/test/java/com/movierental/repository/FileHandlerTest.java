@@ -2,12 +2,12 @@ package com.movierental.repository;
 
 import com.movierental.model.Movie;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class FileHandlerTest {
 
     @Test
-    void readFromFileKeepsQuotedMultilineMovieRowsTogether() throws IOException {
-        FileHandler fileHandler = new FileHandler();
+    void readFromFileKeepsQuotedMultilineMovieRowsTogether(@TempDir Path tempDir) throws IOException {
+        FileHandler fileHandler = new FileHandler(tempDir.toString());
         String filename = "movie-record-" + UUID.randomUUID() + ".txt";
-        Path filePath = Paths.get("data").resolve(filename);
+        Path filePath = tempDir.resolve(filename);
 
         String multilineMovieRecord = "5,Garfield,Peter Hewitt,Comedy,2004-02-11,2.00,2,2,\"Line one" +
                 System.lineSeparator() +
